@@ -6,10 +6,10 @@ const MainNavigation = () => {
       <nav>
         <ul className="flex flex-row text-center">
           <li className="mx-10">
-            <Link to="/">Home</Link>
+            <Link to="..">Home</Link>
           </li>
           <li className="mx-10">
-            <Link to="/productos">Productos</Link>
+            <Link to="productos">Productos</Link>
           </li>
         </ul>
       </nav>

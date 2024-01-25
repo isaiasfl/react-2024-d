@@ -9,11 +9,11 @@ import RootLayout from "./router-dom/RootLayout";
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/datos",
       element: <RootLayout />,
       errorElement: <ErrorPage />,
       children: [
-        { path: "", element: <HomePage /> },
+        { index:true, element: <HomePage /> },
         { path: "productos", element: <Products /> },
         { path: "productos/:productId", element: <ProductDetails /> },
       ],

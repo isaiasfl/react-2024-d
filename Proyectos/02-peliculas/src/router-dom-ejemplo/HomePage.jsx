@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <>
       <div>estoy en HomePage</div>
-      <Link to="/">Volver al Home </Link>
+      <Link to="..">Volver al Home </Link>
     </>
   );
 };
