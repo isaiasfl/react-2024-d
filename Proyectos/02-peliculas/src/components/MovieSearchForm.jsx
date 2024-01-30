@@ -1,13 +1,13 @@
-// import useDataApi from "../hooks/useDataApi";
+import useDataApi from "../hooks/useDataApi";
 
 import { useState } from "react";
+import MovieCard from "./MovieCard";
+import Spinner from "./Spinner";
 
 const apiKey = import.meta.env.VITE_API_TOKEN;
 const MovieSearchForm = () => {
-  const apiEndPoint =
-    "https://api.themoviedb.org/3/discover/movie?&language=es-es&sort_by=popularity.desc&api_key=" +
-    apiKey;
-  // const { data, loading, error } = useDataApi(apiEndPoint);
+  const apiEndPoint = `https://api.themoviedb.org/3/discover/movie?&language=es-es&sort_by=popularity.desc&api_key=8930572ca461d9b58d8f05f72d6f419a`;
+  const { data, loading, error } = useDataApi(apiEndPoint);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -65,8 +65,9 @@ const MovieSearchForm = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-10 w-5/6">
         {loading && <Spinner />}
         {error && <h1>Esto es un error</h1>}
-        {/* {// aquí tengo que recorrer con un map mi data.results} */}
-
+        {(searchQuery ? filteredMovies : data?.results || []).map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
       </div>
     </div>
   );
