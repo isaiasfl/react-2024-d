@@ -12,7 +12,7 @@ function App() {
       path: "/",
       element: <RootPage />,
       errorElement: <ErrorPage />,
-      
+
       children: [
         {
           element: <ProtectedRoute isActive={false} redirectPath="/login" />,
@@ -28,11 +28,7 @@ function App() {
       ],
     },
   ]);
-  return (
-  <Context.Provider value={{}}>
-    <RouterProvider router={router} />
-  </Context.Provider >
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

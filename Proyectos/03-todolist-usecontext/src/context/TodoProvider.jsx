@@ -31,6 +31,6 @@ const TodoProvider = ({ children }) => {
   return (
     <TodoContext.Provider value={ tareas }>{children}</TodoContext.Provider>
   );
-};
+};ls
 
 export default TodoProvider;
