@@ -1,16 +1,17 @@
+// ---- hacemos un Hook para el contexto en un único fichero ------- (ahorramos código)
 import { createContext, useContext, useState } from "react";
 
-// createContext Provider usecontext
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // en el componente del contexto CREAR TODAS FUNCIONES QUE NECESITEIS PASAR
-  const [userFirebase, setUserFirebase] = useState(null);
+  const [userFirebase, setUser] = useState(null);
+
   const signInFirebase = (userData) => {
-    setUserFirebase(userData);
+    setUser(userData);
   };
+
   const signOutFirebase = () => {
-    setUserFirebase(null);
+    setUser(null);
   };
 
   return (
@@ -22,6 +23,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const AuthContextProduct = () => {
+export const useAuthProducts = () => {
   return useContext(AuthContext);
 };

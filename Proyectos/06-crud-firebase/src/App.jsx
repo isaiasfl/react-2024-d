@@ -1,11 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
+import { AuthProvider } from "./context/useAuthProducts";
 import EditProductPage from "./pages/EditProductPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PaymentPage from "./pages/PaymentPage";
 import RootPage from "./pages/RootPage";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -28,7 +30,12 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+      );
+    </AuthProvider>
+  );
 }
 
 export default App;
