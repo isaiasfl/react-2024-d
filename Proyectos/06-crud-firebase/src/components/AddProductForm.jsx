@@ -2,7 +2,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { addProducto } from "../firebase/productosApi";
 
-const AddProductForm = () => {
+const AddProductForm = ({actualizarProductos}) => {
   const [nombre, setNombre] = useState("");
   const [stock, setStock] = useState(0);
   const [descripcion, setDescripcion] = useState("");
@@ -32,6 +32,7 @@ const AddProductForm = () => {
       setStock(0);
       setDescripcion("");
       setUrl("");
+      actualizarProductos();
     } catch (error) {
       console.error("Error al añadir un producto", error);
     }

@@ -1,4 +1,18 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  browserSessionPersistence,
+  getAuth,
+  setPersistence,
+  signInWithPopup,
+} from "firebase/auth";
+
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 // ---------- Dados de la colección ---------
@@ -24,5 +38,36 @@ export const getProductos = async () => {
   } catch (error) {
     console.log("Error al Obtener los productos", error);
     throw error;
+  }
+};
+
+// --------------- Eliminar Productos ------------
+
+export const deleteProducto = async (id) => {
+  try {
+    // seleccionar el documento con ese id
+    const productDocRef = doc(productosCollection, id);
+    // borrar el documento seleccionado
+    await deleteDoc(productDocRef);
+  } catch (error) {
+    console.error("Error deleting", error);
+    throw error;
+  }
+};
+
+export const singWithGoogle = async (sigIn, setError, navigate) => {
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  try {
+    await setPersistence(auth, browserSessionPersistence);
+    const result = await signInWithPopup(auth, provider);
+    // result trae TODA LA INFORMACIÓN de la cuenta seleccionada.
+    const user = result.user;
+    // aquí mando el usuario al contexto global
+    sigIn(user);
+    console.log(user);
+    navigate("/");
+  } catch (error) {
+    setError(`Error  al iniciar sesión: ${error}`);
   }
 };
