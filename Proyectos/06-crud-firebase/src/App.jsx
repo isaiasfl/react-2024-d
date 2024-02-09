@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
-import { AuthProvider } from "./context/useAuthProducts";
+import { ProductosProvider } from "./context/Otra_forma_contexto/ProductosProvider";
+// import { AuthProvider } from "./context/useAuthProducts";
 import EditProductPage from "./pages/EditProductPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
@@ -31,10 +32,17 @@ function App() {
     },
   ]);
   return (
-    <AuthProvider>
+    // ----------- Usando el contexto de la primera forma ---------------
+    // <AuthProvider>
+    //   <RouterProvider router={router} />
+    //   );
+    // </AuthProvider>
+
+    // ------------- Usando el provider del contexto de Otra_forma_contexto ---------------
+    <ProductosProvider>
       <RouterProvider router={router} />
       );
-    </AuthProvider>
+    </ProductosProvider>
   );
 }
 

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthProducts } from "../context/useAuthProducts";
+// import { useAuthProducts } from "../context/useAuthProducts";
+import { useProductosContext } from "../context/Otra_forma_contexto/ProductosContext";
 import { singWithGoogle } from "../firebase/productosApi";
 
 const LoginPage = () => {
   const [error, setError] = useState();
   const navigate = useNavigate();
-  const { signInFirebase } = useAuthProducts();
-
+  // const { signInFirebase } = useProductosContext(); <--- Usando el contexto de la primera forma
+  const { signInFirebase } = useProductosContext(); // <--- Usando el contexto de la Otra_forma_contexto
   const handleSingIn = async () => {
     await singWithGoogle(signInFirebase, setError, navigate);
   };
