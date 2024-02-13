@@ -4,6 +4,7 @@ import {
   getAuth,
   setPersistence,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 
 import {
@@ -11,7 +12,9 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -41,6 +44,25 @@ export const getProductos = async () => {
   }
 };
 
+// cargar datos de un producto cuyo id es ...
+
+export const getProductById = async (productId) => {
+  try {
+    const productDocRef = doc(productosCollection, productId);
+    const productDoc = await getDoc(productDocRef);
+    console.log("ProductDoc --> ", productDoc);
+    if (productDoc.exists()) {
+      return { ...productDoc.data(), id: productDoc.id };
+    } else {
+      console.error("El producto con id dado no existe");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error al Obtener el producto", error);
+    throw error;
+  }
+};
+
 // --------------- Eliminar Productos ------------
 
 export const deleteProducto = async (id) => {
@@ -54,6 +76,20 @@ export const deleteProducto = async (id) => {
     throw error;
   }
 };
+
+// ---- Edit product by id ----
+
+export const editProduct = async (idProduct, newData) => {
+  try {
+    const productDocRef = doc(productosCollection, idProduct);
+    await updateDoc(productDocRef, newData);
+  } catch (error) {
+    console.log("Error updating product", error);
+    throw error;
+  }
+};
+
+// INICIAR SESIÓN CON GOOGLE.
 
 export const singWithGoogle = async (signInFirebase, setError, navigate) => {
   const auth = getAuth();
@@ -69,5 +105,18 @@ export const singWithGoogle = async (signInFirebase, setError, navigate) => {
     navigate("/");
   } catch (error) {
     setError(`Error  al iniciar sesión: ${error}`);
+  }
+};
+
+// CERRAR SESIÓN CON GOOGLE
+
+export const cerrarSesion = async () => {
+  const auth = getAuth();
+  try {
+    await signOut(auth);
+    return true;
+  } catch (error) {
+    console.error("Error al cerrar sesión", error);
+    return false;
   }
 };
