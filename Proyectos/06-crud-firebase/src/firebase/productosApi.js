@@ -55,7 +55,7 @@ export const deleteProducto = async (id) => {
   }
 };
 
-export const singWithGoogle = async (sigIn, setError, navigate) => {
+export const singWithGoogle = async (signInFirebase, setError, navigate) => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   try {
@@ -64,7 +64,7 @@ export const singWithGoogle = async (sigIn, setError, navigate) => {
     // result trae TODA LA INFORMACIÓN de la cuenta seleccionada.
     const user = result.user;
     // aquí mando el usuario al contexto global
-    sigIn(user);
+    signInFirebase(user);
     console.log(user);
     navigate("/");
   } catch (error) {

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthProduct } from "../context/authContextProduct";
 import { singWithGoogle } from "../firebase/productosApi";
-import { AuthContextProduct } from "../context/authContextProduct";
 
 const LoginPage = () => {
   const [error, setError] = useState();
   const navigate = useNavigate();
-  const { signInFirebase } = AuthContextProduct();
+  const { signInFirebase } = useAuthProduct();
   const handleSingIn = async () => {
     await singWithGoogle(signInFirebase, setError, navigate);
   };
