@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteProducto, getProductos } from "../firebase/productosApi";
 import Spinner from "./Spinner";
@@ -7,6 +7,15 @@ import Spinner from "./Spinner";
 const ShowProductTable = ({ actualizarProductos }) => {
   const [loading, setLoading] = useState(false);
   const [productos, setProductos] = useState([]);
+  const [stockTotal, setStockTotal] = useState(0);
+  const navigate = useNavigate();
+
+  const handleOrderToggleByStock = () => {
+
+    setProductos([...productos.sort((a, b) => b.stock - a.stock)]);
+  
+  };
+
   const handleDelete = async (id) => {
     try {
       const response = await Swal.fire({
@@ -32,10 +41,20 @@ const ShowProductTable = ({ actualizarProductos }) => {
     }
   };
 
+  const handleClickPayment = () => {
+    navigate("/payment", { state: { stockTotal } });
+  };
+
   const fetchDataProducts = async () => {
     try {
       const productosData = await getProductos();
       setProductos(productosData);
+      setStockTotal(
+        productosData.reduce(
+          (acum, producto) => (acum += parseInt(producto.stock)),
+          0
+        )
+      );
     } catch (error) {
       console.log("Error fetching productos", error);
     } finally {
@@ -45,6 +64,7 @@ const ShowProductTable = ({ actualizarProductos }) => {
   useEffect(() => {
     fetchDataProducts();
   }, [actualizarProductos]);
+
   return (
     <div className="w-3/4 mx-auto mt-8">
       <h2 className="text-3xl font-semibold mb-4">Lista de productos</h2>
@@ -57,7 +77,12 @@ const ShowProductTable = ({ actualizarProductos }) => {
               <tr>
                 <th className="py-2 px-4 border-b">ID</th>
                 <th className="py-2 px-4 border-b">Nombre Producto</th>
-                <th className="py-2 px-4 border-b">Stock</th>
+                <th
+                  className="py-2 px-4 border-b cursor-pointer hover:bg-red-500"
+                  onClick={handleOrderToggleByStock}
+                >
+                  Stock
+                </th>
                 <th className="py-2 px-4 border-b">Descripcion</th>
                 <th className="py-2 px-4 border-b">Imagen</th>
                 <th className="py-2 px-4 border-b">Acciones</th>
@@ -95,6 +120,16 @@ const ShowProductTable = ({ actualizarProductos }) => {
               ))}
             </tbody>
           </table>
+          <div className="bg-gray-400 p-4 mt-4 border-t flex justify-between items-center">
+            <span className="text-lg font-semibold">Total Stock</span>
+            <span className="text-lg">{stockTotal}</span>
+            <button
+              onClick={handleClickPayment}
+              className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-1 px-3 rounded "
+            >
+              Pagar
+            </button>
+          </div>
         </>
       )}
     </div>

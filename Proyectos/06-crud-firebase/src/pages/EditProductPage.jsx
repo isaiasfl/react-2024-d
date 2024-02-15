@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditProductForm from "../components/EditProductForm";
+import Spinner from "../components/Spinner";
 import { getProductById } from "../firebase/productosApi";
 
 const EditProductPage = () => {
@@ -27,12 +28,12 @@ const EditProductPage = () => {
   }, []);
 
   if (producto === null) {
-    return <div>Cargando ...</div>;
+    return <Spinner />;
   }
 
   return (
     <div className="w-5/6 mx-auto mt-10">
-      {JSON.stringify(producto)}
+      {/* {JSON.stringify(producto)} */}
       <EditProductForm initalData={producto} />
     </div>
   );
