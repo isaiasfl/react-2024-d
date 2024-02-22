@@ -3,6 +3,7 @@ import useLocalStorage from "./customHooks/useLocalStorage";
 import Counter from "./useCallback/Counter";
 import UseMemoProductList from "./useMemo/UseMemoProductList";
 import BasicoReduce from "./useReducer/BasicoReduce";
+import FormUseReducer from "./useReducer/FormUseReducer";
 
 function App() {
   const [uuid, generateUUID] = useCustomUUID();
@@ -58,6 +59,8 @@ function App() {
           onChange={handleChange}
         />
       </div>
+      <hr />
+      <FormUseReducer />
     </>
   );
 }
